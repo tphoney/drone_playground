@@ -1,0 +1,26 @@
+kind: pipeline
+name: default
+
+steps:
+- name: display go version
+  image: golang
+  pull: if-not-exists
+  commands:
+  - go version
+- name: display java version
+  image: openjdk
+  pull: if-not-exists
+  commands:
+  - java -version
+
+# conditionals
+
+# parallelism
+
+# triggers
+
+# plugins
+
+# artifact examples
+## dockerhub
+## appstore
