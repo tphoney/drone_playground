@@ -74,7 +74,14 @@ For more advanced information on golang builds go here `https://docs.drone.io/pi
 
 ### Java build
 
-Same as golang for now.
+Code lives here in the `java` folder, it contains an example project and a basic `.drone.yaml` file that:
+
+- builds a class
+- runs the class
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./java/.drone.yml`
+
+For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
 
 ## TODO's
 

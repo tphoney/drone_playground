@@ -3,7 +3,7 @@ type: docker
 name: default
 
 pipeline:
-  test:
+  golang_test:
     image: golang:latest
     commands:
       - pwd
@@ -12,7 +12,7 @@ pipeline:
       - ls -al
       - go vet
       - go test -v -cover
-  build:
+  golang_build:
     image: golang:latest
     commands:
       - cd golang
