@@ -1,0 +1,11 @@
+kind: pipeline
+type: docker
+name: default
+
+pipeline:
+  java_build:
+    image: java:openjdk-8
+    commands:
+      - cd java
+      - javac Main.java
+      - java Main
