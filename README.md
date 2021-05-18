@@ -60,6 +60,15 @@ DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}   # taken from your Git
 
 This contains lots of different kinds of builds as listed below. Just follow their instructions to try them out.
 
+## Drone Basics
+
+### Conditionals
+
+Here is a concrete example of conditional usage in drone. For more complex usage look here. `https://docs.drone.io/pipeline/conditions/`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/.conditional.yml`
+
+## Language specific build examples
+
 ### Golang build
 
 Code lives here in the `golang` folder, it contains an example go project and a basic `.drone.yaml` file that:
