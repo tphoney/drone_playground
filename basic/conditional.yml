@@ -2,29 +2,29 @@ kind: pipeline
 type: docker
 name: default
 
-pipeline:
-  conditional_failure_step:
-    image: alpine:latest
-    commands:
-      - this command does not exist and will error
-  conditional_skipped_because_of_failure:
-    image: alpine:latest
-    commands:
-      - echo 'this will never be seen, because the first step failed'
-  conditional_runs_no_matter_what:
-    description:
-    image: alpine:latest
-    commands:
-      - echo 'this will always be seen, if there was a failing step or not'
-    when:
-      status:
-      - success
-      - failure
-  conditional_runs_only_with_failure:
-    description:
-    image: alpine:latest
-    commands:
-      - echo 'this will be seen if there was a failing step'
-    when:
-      status:
-      - failure
+steps:
+- name: conditional_failure_step
+  image: alpine:latest
+  commands:
+    - this command does not exist and will error
+- name: conditional_skipped_because_of_failure
+  image: alpine:latest
+  commands:
+    - echo 'this will never be seen, because the first step failed'
+- name: conditional_runs_no_matter_what
+  description:
+  image: alpine:latest
+  commands:
+    - echo 'this will always be seen, if there was a failing step or not'
+  when:
+    status:
+    - success
+    - failure
+- name: conditional_runs_only_with_failure
+  description:
+  image: alpine:latest
+  commands:
+    - echo 'this will be seen if there was a failing step'
+  when:
+    status:
+    - failure
