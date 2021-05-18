@@ -6,26 +6,76 @@ Fork this repo into your own namespace and have a play. This is the repo you wil
 
 ***DO NOT CHECK CREDENTIALS INTO THIS REPO***
 
-## Running Drone on your laptop
+## Set up Github Oauth Apps
 
-some steps here. ngrok ? et al
+Go here `https://github.com/settings/developers`
 
 ## Running Drone in AWS
 
 The manual steps to run a server and runner on the same instance in AWS.
+The cloud init file below will install docker for you and give you a docker compose file and get the latest drone images.
+
+### Pre-requisites
+
+- Set up a key pair SSH or putty `https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#KeyPairs`
+- set up a security group to allow 8080 and 22
 
 ### AWS setup
 
-bla bla instance type stuff / vpc / arn thingys ?
+- On screen `1` Ubuntu 20.04
+- On screen `2` t2.medium 4gb mem
+- on screen `3` select your network
+- In advanced details - inside 'user data' paste in the following
 
-## The .drone.yml
+```BASH
+users:
+- default
+- name: root
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  groups: sudo
+packages:
+- docker-compose
+- vim
+```
 
-This contains lots of different kinds of builds as listed below. Just uncomment them to run them on your forked repository.
+- On screen `6` select the existing security group you created.
+- Review your settings, finally select your key pair you have created.
 
-### Go build
+### Installing drone
 
-This repo contains a sample go project, it has tests / builds and produces a docker container that we push to docker hub.
-Code lives here :
+- Copy this docker compose file `https://github.com/drone/drone/blob/master/docker/compose/drone-github/docker-compose.yml`
 
-Compile code:
-go build ./...
+Changing the following 3 settings
+
+```BASH
+DRONE_SERVER_PROXY_HOST=${DRONE_SERVER_PROXY_HOST}         # your aws instance hostname
+DRONE_GITHUB_CLIENT_ID=${DRONE_GITHUB_CLIENT_ID}           # taken from your Github oauth application
+DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}   # taken from your Github oauth application
+```
+
+- install docker
+- run the following command `docker-compose up`
+
+## This repository
+
+This contains lots of different kinds of builds as listed below. Just follow their instructions to try them out.
+
+### Golang build
+
+Code lives here in the `golang` folder, it contains an example go project and a basic `.drone.yaml` file that:
+
+- go vet
+- go test
+- builds a binary
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./golang/.drone.yml`
+
+For more advanced information on golang builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/golang/`
+
+### Java build
+
+Same as golang for now.
+
+## TODO's
+
+- Add workspace setting for golang .drone.yml, to remove cd hack.

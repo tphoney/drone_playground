@@ -1,0 +1,19 @@
+kind: pipeline
+type: docker
+name: default
+
+pipeline:
+  test:
+    image: golang:latest
+    commands:
+      - pwd
+      - ls -al
+      - cd golang
+      - ls -al
+      - go vet
+      - go test -v -cover
+  build:
+    image: golang:latest
+    commands:
+      - cd golang
+      - go build
