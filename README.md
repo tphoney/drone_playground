@@ -1,6 +1,6 @@
 # drone_trainer 
 
-[![Build Status](https://35.210.4.24/api/badges/tphoney/drone_trainer/status.svg)](https://35.210.4.24/tphoney/drone_trainer)
+[![Build Status](http://35.210.4.24/api/badges/tphoney/drone_trainer/status.svg)](http://35.210.4.24/tphoney/drone_trainer)
 
 Helping get up to speed with drone via examples. There is a .drone.yml that builds a variety of project types from golang to ??
 
