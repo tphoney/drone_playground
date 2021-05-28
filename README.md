@@ -1,6 +1,4 @@
-# drone_trainer 
-
-[![Build Status](http://35.210.4.24/api/badges/tphoney/drone_trainer/status.svg)](http://35.210.4.24/tphoney/drone_trainer)
+# drone_trainer
 
 Helping get up to speed with drone via examples. There is a .drone.yml that builds a variety of project types from golang to ??
 
@@ -30,18 +28,66 @@ The cloud init file below will install docker for you and give you a docker comp
 - In advanced details - inside 'user data' paste in the following
 
 ```BASH
+#cloud-config
 users:
 - default
 - name: root
   sudo: ALL=(ALL) NOPASSWD:ALL
   groups: sudo
+
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+      
 packages:
-- docker-compose
+- docker-ce
+- docker-ce-cli
 - vim
+
+write_files:
+- path: /root/docker-compose.yml
+  content: |
+    version: "3.8"
+    services:
+        drone:
+            image: drone/drone:latest
+            ports:
+            - "8080:80"
+            environment:
+            - DRONE_SERVER_HOST=localhost:8080
+            - DRONE_SERVER_PROTO=http
+            - DRONE_SERVER_PROXY_HOST=${DRONE_SERVER_PROXY_HOST}
+            - DRONE_SERVER_PROXY_PROTO=https
+            - DRONE_RPC_SECRET=bea26a2221fd8090ea38720fc445eca6
+            - DRONE_COOKIE_SECRET=e8206356c843d81e05ab6735e7ebf075
+            - DRONE_COOKIE_TIMEOUT=720h
+            - DRONE_GITHUB_CLIENT_ID=${DRONE_GITHUB_CLIENT_ID}
+            - DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}
+            - DRONE_LOGS_DEBUG=true
+            - DRONE_CRON_DISABLED=true
+            volumes:
+            - ./data:/data
+        runner:
+            image: drone/drone-runner-docker:latest
+            environment:
+            - DRONE_RPC_HOST=drone
+            - DRONE_RPC_PROTO=http
+            - DRONE_RPC_SECRET=bea26a2221fd8090ea38720fc445eca6
+            - DRONE_TMATE_ENABLED=true
+            volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+runcmd:
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, restart, docker ]
+
+output: {all: '| tee -a /var/log/cloud-init-output.log'}
 ```
 
 - On screen `6` select the existing security group you created.
 - Review your settings, finally select your key pair you have created.
+- SSH into the box as ubuntu `ssh -i /home/tp/workspace/test_key_pair.pem ubuntu@3.16.108.11` and change to the root user `sudo su`.
 
 ### Installing drone
 
@@ -76,8 +122,12 @@ To try this build. In the settings of this repo in you drone ui. Set the path fo
 
 ### Triggers and multiple pipelines
 
-Here is a concrete example of triggers and multiple pipelines in drone. For more complex usage docker usage look here. `https://docs.drone.io/quickstart/docker/`
+Here is a concrete example of triggers and multiple pipelines in drone.
 To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/triggers_and_pipelines.yml`
+
+### Further reading into what is possible
+
+For more complex usage docker usage look here. `https://docs.drone.io/quickstart/docker/`
 
 ## Language specific build examples
 
