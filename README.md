@@ -1,14 +1,60 @@
 # drone_trainer
 
-Helping get up to speed with drone via examples. There is a .drone.yml that builds a variety of project types from golang to ??
+Helping get up to speed with drone via examples.
 
-Fork this repo into your own namespace and have a play. This is the repo you will be using in your drone setup.
+Fork this repository into your own namespace and have a play. 
 
 ***DO NOT CHECK CREDENTIALS INTO THIS REPO***
 
-## Set up Github Oauth Apps
+## This repository
 
-Go here `https://github.com/settings/developers`
+This contains lots of different kinds of builds as listed below. Just follow their instructions to try them out.
+
+## Drone Basics
+
+### Conditionals
+
+Here is a concrete example of conditional usage in drone. For more complex usage look here. `https://docs.drone.io/pipeline/conditions/`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/conditional.yml`
+
+### Parallelism
+
+Here is a concrete example of parallel builds in drone. For more complex usage look here. `https://docs.drone.io/pipeline/docker/syntax/parallelism/`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/parallel.yml`
+
+### Triggers and multiple pipelines
+
+Here is a concrete example of triggers and multiple pipelines in drone.
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/triggers_and_pipelines.yml`
+
+### Further reading into what is possible
+
+For more complex usage docker usage look here. `https://docs.drone.io/quickstart/docker/`
+
+## Language specific build examples
+
+### Golang build
+
+Code lives here in the `golang` folder, it contains an example go project and a basic `.drone.yaml` file that:
+
+- go vet
+- go test
+- builds a binary
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./golang/.drone.yml`
+
+For more advanced information on golang builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/golang/`
+
+### Java build
+
+Code lives here in the `java` folder, it contains an example project and a basic `.drone.yaml` file that:
+
+- builds a class
+- runs the class
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./java/.drone.yml`
+
+For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
 
 ## Running Drone in AWS
 
@@ -91,6 +137,10 @@ output: {all: '| tee -a /var/log/cloud-init-output.log'}
 
 ### Installing drone
 
+## Set up Github Oauth Apps
+
+Go here `https://github.com/settings/developers`
+
 - Copy this docker compose file `https://github.com/drone/drone/blob/master/docker/compose/drone-github/docker-compose.yml`
 
 Changing the following 3 settings
@@ -103,56 +153,6 @@ DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}   # taken from your Git
 
 - install docker
 - run the following command `docker-compose up`
-
-## This repository
-
-This contains lots of different kinds of builds as listed below. Just follow their instructions to try them out.
-
-## Drone Basics
-
-### Conditionals
-
-Here is a concrete example of conditional usage in drone. For more complex usage look here. `https://docs.drone.io/pipeline/conditions/`
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/conditional.yml`
-
-### Parallelism
-
-Here is a concrete example of parallel builds in drone. For more complex usage look here. `https://docs.drone.io/pipeline/docker/syntax/parallelism/`
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/parallel.yml`
-
-### Triggers and multiple pipelines
-
-Here is a concrete example of triggers and multiple pipelines in drone.
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/triggers_and_pipelines.yml`
-
-### Further reading into what is possible
-
-For more complex usage docker usage look here. `https://docs.drone.io/quickstart/docker/`
-
-## Language specific build examples
-
-### Golang build
-
-Code lives here in the `golang` folder, it contains an example go project and a basic `.drone.yaml` file that:
-
-- go vet
-- go test
-- builds a binary
-
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./golang/.drone.yml`
-
-For more advanced information on golang builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/golang/`
-
-### Java build
-
-Code lives here in the `java` folder, it contains an example project and a basic `.drone.yaml` file that:
-
-- builds a class
-- runs the class
-
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./java/.drone.yml`
-
-For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
 
 ## TODO's
 
