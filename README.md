@@ -15,17 +15,17 @@ This contains lots of different kinds of builds as listed below. Just follow the
 ### Conditionals
 
 Here is a concrete example of conditional usage in drone. For more complex usage look here. `https://docs.drone.io/pipeline/conditions/`
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/conditional.yml`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basic/conditional.yml`
 
 ### Parallelism
 
 Here is a concrete example of parallel builds in drone. For more complex usage look here. `https://docs.drone.io/pipeline/docker/syntax/parallelism/`
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/parallel.yml`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basic/parallel.yml`
 
 ### Triggers and multiple pipelines
 
 Here is a concrete example of triggers and multiple pipelines in drone.
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basics/triggers_and_pipelines.yml`
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basic/triggers_and_pipelines.yml`
 
 ### Further reading into what is possible
 
