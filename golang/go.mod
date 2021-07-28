@@ -1,3 +1,3 @@
-module github.com/tphoney/drone_trainer/golang
+module github.com/tphoney/drone_playground/golang
 
-go 1.14
+go 1.16
