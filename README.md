@@ -1,8 +1,8 @@
-# drone_trainer
+# drone_playground
 
 Helping get up to speed with drone via examples.
 
-Fork this repository into your own namespace and have a play. 
+Fork this repository into your own namespace and have a try out the examples.
 
 ***DO NOT CHECK CREDENTIALS INTO THIS REPO***
 
@@ -56,22 +56,19 @@ To try this build. In the settings of this repo in you drone ui. Set the path fo
 
 For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
 
-## Running Drone in AWS
+## (optional) Running and installing Drone in AWS using Github as the git provider
 
-The manual steps to run a server and runner on the same instance in AWS.
-The cloud init file below will install docker for you and give you a docker compose file and get the latest drone images.
+**THIS IS NOT RECOMMENDED FOR PRODUCTION** **THIS IS NOT RECOMMENDED FOR PRODUCTION**
 
-### Pre-requisites
-
-- Set up a key pair SSH or putty `https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#KeyPairs`
-- set up a security group to allow 8080 and 22
+The setup here is for testing purposes only, there are settings here that are inherently insecure (the open ssh/http ports).
 
 ### AWS setup
 
-- On screen `1` Ubuntu 20.04
+- Go to your EC2 dashboard `https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Home:` we are using Ohio region us-east-2
+- Click on the Launch Instance button
+- On screen `1` Ubuntu 20.04 - You may need to click the subscribe button to get the latest image.
 - On screen `2` t2.medium 4gb mem
-- on screen `3` select your network
-- In advanced details - inside 'user data' paste in the following
+- On screen `3` In advanced details - inside 'user data' paste in the following
 
 ```BASH
 #cloud-config
@@ -89,7 +86,6 @@ apt:
       
 packages:
 - docker-ce
-- docker-ce-cli
 - vim
 
 write_files:
@@ -100,12 +96,10 @@ write_files:
         drone:
             image: drone/drone:latest
             ports:
-            - "8080:80"
+            - "80:80"
             environment:
-            - DRONE_SERVER_HOST=localhost:8080
+            - DRONE_SERVER_HOST=${AWS_HOSTNAME}
             - DRONE_SERVER_PROTO=http
-            - DRONE_SERVER_PROXY_HOST=${DRONE_SERVER_PROXY_HOST}
-            - DRONE_SERVER_PROXY_PROTO=https
             - DRONE_RPC_SECRET=bea26a2221fd8090ea38720fc445eca6
             - DRONE_COOKIE_SECRET=e8206356c843d81e05ab6735e7ebf075
             - DRONE_COOKIE_TIMEOUT=720h
@@ -127,32 +121,43 @@ write_files:
 runcmd:
   - [ systemctl, daemon-reload ]
   - [ systemctl, restart, docker ]
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
 
 output: {all: '| tee -a /var/log/cloud-init-output.log'}
 ```
 
-- On screen `6` select the existing security group you created.
-- Review your settings, finally select your key pair you have created.
-- SSH into the box as ubuntu `ssh -i /home/tp/workspace/test_key_pair.pem ubuntu@3.16.108.11` and change to the root user `sudo su`.
+This script installs docker, docker-compose, vim and creates '/root/docker-compose.yml' for you.
 
-### Installing drone
+- On screen `4` select the storage size
+- On screen `5` add any neccessary tags
+- On screen `6` set up a security group to allow ports 80 and 22 (http/ssh) from anywhere.
+- Review your settings, finally select your key pair you have created / or create a new key pair.
 
-## Set up Github Oauth Apps
+### Setting up Github Oauth
 
-Go here `https://github.com/settings/developers`
+- Setup github Oauth `https://github.com/settings/developers`
+- Set the home page to `http://localhost` * this is not important
+- Set the `Authorization callback URL` to `http://${AWS_HOSTNAME}/login`
+- Create your client id and secret. Keep these safe !! this is the only time you will see these.
 
-- Copy this docker compose file `https://github.com/drone/drone/blob/master/docker/compose/drone-github/docker-compose.yml`
+### Running Drone
+
+- SSH into the box as ubuntu using your aws pem file `ssh -i key_pair.pem ubuntu@${AWS_HOSTNAME}`. Use whatever your key pair is called.
+- Change to the root user `sudo su`
+- Change directory into the root folder `cd /root`
+- Edit the docker compose file `vim docker-compose.yml`
 
 Changing the following 3 settings
 
 ```BASH
-DRONE_SERVER_PROXY_HOST=${DRONE_SERVER_PROXY_HOST}         # your aws instance hostname
+DRONE_SERVER_HOST=${AWS_HOSTNAME}                          # your aws instance hostname
 DRONE_GITHUB_CLIENT_ID=${DRONE_GITHUB_CLIENT_ID}           # taken from your Github oauth application
 DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}   # taken from your Github oauth application
 ```
 
-- install docker
-- run the following command `docker-compose up`
+- Run the following command to start the Docker containers `docker-compose up`. You should see the Drone server and Drone runner start.
+- Open a browser and go to `http://{AWS_HOSTNAME}`
 
 ## TODO's
 
