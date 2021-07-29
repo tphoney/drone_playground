@@ -10,16 +10,24 @@ Fork this repository into your own namespace and have a try out the examples.
 
 This contains lots of different kinds of builds as listed below. Just follow their instructions to try them out.
 
+After you have forked this repository.
+
+There are a couple ways to try it out.
+
+  1. Run this on your installation of Drone. You will be able to add your forked repository, and then run builds.
+  2. Run this on [cloud.drone.io](cloud.drone.io) You will need to have an established github account. Once you log into cloud.drone.io you will be able to add your forked repository, and then run builds.
+  3. Follow the instructions for setting up drone in aws, at the bottom of this readme. You will be able to add your forked repository, and then run builds.
+
 ## Drone Basics
 
 ### Conditionals
 
-Here is a concrete example of conditional usage in drone. For more complex usage look here. `https://docs.drone.io/pipeline/conditions/`
+Here is a concrete example of conditional usage in drone. For more complex usage look [here](https://docs.drone.io/pipeline/conditions/)
 To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basic/conditional.yml`
 
 ### Parallelism
 
-Here is a concrete example of parallel builds in drone. For more complex usage look here. `https://docs.drone.io/pipeline/docker/syntax/parallelism/`
+Here is a concrete example of parallel builds in drone. For more complex usage look [here](https://docs.drone.io/pipeline/docker/syntax/parallelism/)
 To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./basic/parallel.yml`
 
 ### Triggers and multiple pipelines
@@ -29,7 +37,7 @@ To try this build. In the settings of this repo in you drone ui. Set the path fo
 
 ### Further reading into what is possible
 
-For more complex usage docker usage look here. `https://docs.drone.io/quickstart/docker/`
+For more complex usage docker usage look [here](https://docs.drone.io/quickstart/docker/)
 
 ## Language specific build examples
 
@@ -43,7 +51,7 @@ Code lives here in the `golang` folder, it contains an example go project and a 
 
 To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./golang/.drone.yml`
 
-For more advanced information on golang builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/golang/`
+For more advanced information on golang builds go [here](https://docs.drone.io/pipeline/kubernetes/examples/language/golang/)
 
 ### Java build
 
@@ -54,9 +62,9 @@ Code lives here in the `java` folder, it contains an example project and a basic
 
 To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./java/.drone.yml`
 
-For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
+For more advanced information on Java builds go [here](https://docs.drone.io/pipeline/kubernetes/examples/language/java/)
 
-## (optional) Running and installing Drone in AWS using Github as the git provider
+## Running and installing Drone in AWS using Github as the git provider
 
 **THIS IS NOT RECOMMENDED FOR PRODUCTION** **THIS IS NOT RECOMMENDED FOR PRODUCTION**
 
@@ -64,7 +72,7 @@ The setup here is for testing purposes only, there are settings here that are in
 
 ### AWS setup
 
-- Go to your EC2 dashboard `https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Home:` we are using Ohio region us-east-2
+- Go to your EC2 [dashboard](https://us-east-2.console.aws.amazon.com/ec2/v2/home?region=us-east-2#Home:) we are using Ohio region us-east-2
 - Click on the Launch Instance button
 - On screen `1` Ubuntu 20.04 - You may need to click the subscribe button to get the latest image.
 - On screen `2` t2.medium 4gb mem
@@ -136,7 +144,7 @@ This script installs docker, docker-compose, vim and creates '/root/docker-compo
 
 ### Setting up Github Oauth
 
-- Setup github Oauth `https://github.com/settings/developers`
+- Setup [Github Oauth](https://github.com/settings/developers)
 - Set the home page to `http://localhost` * this is not important
 - Set the `Authorization callback URL` to `http://${AWS_HOSTNAME}/login`
 - Create your client id and secret. Keep these safe !! this is the only time you will see these.
