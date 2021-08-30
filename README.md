@@ -104,6 +104,19 @@ To try this build. In the settings of this repo in you drone ui. Set the path fo
 
 For more advanced information on Java builds go here `https://docs.drone.io/pipeline/kubernetes/examples/language/java/`
 
+### Mysql database
+
+Code lives here in the `mysql` folder, it runs a mysql service in a basic `.drone.yaml` file that:
+
+- mysql service that runs the database
+- mysql health check that waits on the mysql service to come up
+- DDL sql step to create and insert data into a table
+- DML sql step to get data from the table
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./mysql/.drone.yml`
+
+For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
+
 ## TODO's
 
 - Add workspace setting for golang .drone.yml, to remove cd hack.
