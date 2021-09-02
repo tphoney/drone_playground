@@ -64,6 +64,36 @@ To try this build. In the settings of this repo in you drone ui. Set the path fo
 
 For more advanced information on Java builds go [here](https://docs.drone.io/pipeline/kubernetes/examples/language/java/)
 
+### Localstack service
+
+[Localstack](https://localstack.cloud/) provides a mock framework for developing cloud applications, which you can spin up a local test environment which provides the same functionality and API's as the real AWS Cloud Environment.
+
+Code lives here in the `localstack` folder, it runs a localstack service in a basic `.drone.yml` file that:
+
+- provisions a localstack service that enables you to interact with the localstack api's
+- localstack health check that waits on the localstack service to come up
+- create kineses stream step, which creates a kineses resource on localstack to produce and consume records from
+- put records step, which put's 100 records into kinesis using a for loop
+- get records step, which consumes all the records from kinesis
+- delete kinesis stream step, which deletes the kinesis resource from localstack
+
+To try this build, In the settings of this repo in your drone ui, set the path for the drone file to `./localstack/.drone.yml`
+
+For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
+
+### Mysql database
+
+Code lives here in the `mysql` folder, it runs a mysql service in a basic `.drone.yaml` file that:
+
+- mysql service that runs the database
+- mysql health check that waits on the mysql service to come up
+- DDL sql step to create and insert data into a table
+- DML sql step to get data from the table
+
+To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./mysql/.drone.yml`
+
+For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
+
 ## Running and installing Drone in AWS using Github as the git provider
 
 **THIS IS NOT RECOMMENDED FOR PRODUCTION** **THIS IS NOT RECOMMENDED FOR PRODUCTION**
@@ -166,36 +196,6 @@ DRONE_GITHUB_CLIENT_SECRET=${DRONE_GITHUB_CLIENT_SECRET}   # taken from your Git
 
 - Run the following command to start the Docker containers `docker-compose up`. You should see the Drone server and Drone runner start.
 - Open a browser and go to `http://{AWS_HOSTNAME}`
-
-### Mysql database
-
-Code lives here in the `mysql` folder, it runs a mysql service in a basic `.drone.yaml` file that:
-
-- mysql service that runs the database
-- mysql health check that waits on the mysql service to come up
-- DDL sql step to create and insert data into a table
-- DML sql step to get data from the table
-
-To try this build. In the settings of this repo in you drone ui. Set the path for the drone file to `./mysql/.drone.yml`
-
-For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
-
-### Localstack service
-
-[Localstack](https://localstack.cloud/) provides a mock framework for developing cloud applications, which you can spin up a local test environment which provides the same functionality and API's as the real AWS Cloud Environment.
-
-Code lives here in the `localstack` folder, it runs a localstack service in a basic `.drone.yml` file that:
-
-- provisions a localstack service that enables you to interact with the localstack api's
-- localstack health check that waits on the localstack service to come up
-- create kineses stream step, which creates a kineses resource on localstack to produce and consume records from
-- put records step, which put's 100 records into kinesis using a for loop
-- get records step, which consumes all the records from kinesis
-- delete kinesis stream step, which deletes the kinesis resource from localstack
-
-To try this build, In the settings of this repo in your drone ui, set the path for the drone file to `./localstack/.drone.yml`
-
-For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
 
 ## TODO's
 
