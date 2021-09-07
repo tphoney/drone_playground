@@ -81,6 +81,22 @@ To try this build, In the settings of this repo in your drone ui, set the path f
 
 For more advanced information on services go here `https://docs.drone.io/pipeline/kubernetes/syntax/services/`
 
+### Minio
+
+[MinIO](https://min.io/) is an open source distributed object storage server written in Go.
+
+Code lives here in the `minio` folder, it runs a localstack service in a basic `.drone.yml` file that:
+
+- provisions a minio service that enables you to interact with its object storage service
+- health check step that waits on the minio service to come up
+- configures the minio client `mc` and creates a minio bucket 
+- writes a file to the local filesystem and uploads the file to the minio object store
+- uses `mc cat` to read the content of the object on minio
+
+To try this build, In the settings of this repo in your drone ui, set the path for the drone file to `./minio/.drone.yml`
+
+For more advanced information on services go here `https://docs.drone.io/pipeline/docker/syntax/services/`
+
 ### Mysql database
 
 Code lives here in the `mysql` folder, it runs a mysql service in a basic `.drone.yaml` file that:
