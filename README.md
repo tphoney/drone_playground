@@ -97,6 +97,17 @@ To try this build, In the settings of this repo in your drone ui, set the path f
 
 For more advanced information on services go here `https://docs.drone.io/pipeline/docker/syntax/services/`
 
+### MongoDB
+
+[MongoDB](https://www.mongodb.com/) is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas.
+
+Code lives here in the `mongodb` folder, it runs a mongodb service in a basic `./mongodb/.drone.yml` file that:
+
+- provisions a mongodb service that runs the database
+- health check step that waits on the mongodb service to come up
+- as mongodb supports javascript, theres a script to generate dummy data and write to mongodb collection
+- a step to read from mongodb using a query
+
 ### Mysql database
 
 Code lives here in the `mysql` folder, it runs a mysql service in a basic `.drone.yaml` file that:

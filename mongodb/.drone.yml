@@ -1,0 +1,39 @@
+---
+kind: pipeline
+type: docker
+name: mongodb
+
+steps:
+  - name: mongodb-healthcheck
+    image: mongo:4
+    commands:
+      - while ! mongo --host mongo --eval "db.version()"; do sleep 1; done
+
+  - name: mongodb-return-version
+    image: mongo:4
+    commands:
+      - date
+      - mongo --host mongo --eval "db.version()"
+
+  - name: mongodb-writes
+    image: mongo:4
+    commands:
+      - date
+      - sh mongodb/scripts/write_mongo.sh
+
+  - name: mongodb-reads
+    image: mongo:4
+    commands:
+      - date
+      - sh mongodb/scripts/read_mongo.sh
+
+  - name: last-step
+    image: alpine
+    commands:
+      - echo "completed at $(date)"
+
+services:
+  - name: mongo
+    image: mongo:4
+    ports:
+      - 27017
