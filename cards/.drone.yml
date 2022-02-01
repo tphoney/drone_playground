@@ -1,0 +1,39 @@
+kind: pipeline
+name: default
+type: docker
+
+steps:
+  - name: build
+    image: golang:1.17
+    pull: if-not-exists
+    commands:
+      - make build
+    environment:
+      aws_access_key: AKIAIOSFODNN7EXAMPLE
+
+  - name: scan
+    image: plugins/drone-snyk
+    privileged: true
+    settings:
+      image: docker.io/drone_playground/hello-world:v1.0
+      debug: true
+      username:
+        from_secret: username
+      password:
+        from_secret: password
+      snyk:
+        from_secret: snyk
+      fail_on_issues: false
+
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: plugins/drone_playground
+      dockerfile: Dockerfile
+      username:
+        from_secret: username
+      password:
+        from_secret: password
+
+  - name: git-leak
+    image: plugins/gitleaks
